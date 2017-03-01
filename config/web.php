@@ -6,6 +6,12 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'modules' => [
+        'apiv1' => [
+            'basePath' => '@app/modules/apiv1',
+            'class' => 'app\modules\apiv1\Module',
+        ]
+    ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -20,6 +26,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            'enableSession' => false,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -41,14 +48,16 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+//                "<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>"=>"<module>/<controller>/<action>",
+//                "<controller:\w+>/<action:\w+>/<id:\d+>"=>"<controller>/<action>",
+//                "<controller:\w+>/<action:\w+>"=>"<controller>/<action>",
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['apiv1/user']],
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
