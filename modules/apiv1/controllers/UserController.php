@@ -1,6 +1,7 @@
 <?php
 namespace app\modules\apiv1\controllers;
 
+use app\models\LoginForm;
 use Yii;
 use app\models\User;
 use app\models\SignupForm;
@@ -17,7 +18,7 @@ class UserController extends ActiveController
     public function actions()
     {
         $actions = parent::actions();
-        unset($actions['update'], $actions['create'], $actions['delete'], $actions['view']);
+        unset($actions['index'],$actions['update'], $actions['create'], $actions['delete'], $actions['view']);
         return $actions;
     }
     public function bahaviors()

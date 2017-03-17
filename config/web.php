@@ -56,7 +56,7 @@ $config = [
 //                "<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>"=>"<module>/<controller>/<action>",
 //                "<controller:\w+>/<action:\w+>/<id:\d+>"=>"<controller>/<action>",
 //                "<controller:\w+>/<action:\w+>"=>"<controller>/<action>",
-                ['class' => 'yii\rest\UrlRule', 'controller' => ['apiv1/user']],
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['apiv1/user','apiv1/login']],
             ],
         ],
     ],
