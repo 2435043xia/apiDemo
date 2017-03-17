@@ -2,32 +2,25 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+use yii\db\ActiveRecord;
+
+class User extends ActiveRecord implements \yii\web\IdentityInterface
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
 
 
+    public static function tableName()
+    {
+        return 'user';
+    }
+    public function rules()
+    {
+        return [
+            [['username', 'password'], 'string', 'max' => 15],
+            [['auth_key', 'access_token'], 'string', 'max' => 60],
+            [['username'], 'unique'],
+            [['access_token'], 'unique'],
+        ];
+    }
     /**
      * @inheritdoc
      */
@@ -41,14 +34,11 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
-    }
+        return User::findOne(['access_token' => $token]);
+    }    public function loginByAccessToken($accessToken, $type) {
+    //查询数据库中有没有存在这个token
+    return static::findIdentityByAccessToken($token, $type);
+}
 
     /**
      * Finds user by username
@@ -75,20 +65,24 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         return $this->id;
     }
 
+    public function generateAuthKey()
+    {
+        $this->auth_key = \Yii::$app->security->generateRandomString();
+    }
     /**
      * @inheritdoc
      */
     public function getAuthKey()
     {
-        return $this->authKey;
+        return $this->auth_key;
     }
 
     /**
      * @inheritdoc
      */
-    public function validateAuthKey($authKey)
+    public function validateAuthKey($auth_key)
     {
-        return $this->authKey === $authKey;
+        return $this->auth_key === $auth_key;
     }
 
     /**

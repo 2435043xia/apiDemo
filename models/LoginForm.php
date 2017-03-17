@@ -15,8 +15,6 @@ class LoginForm extends Model
 {
     public $username;
     public $password;
-    public $rememberMe = true;
-
     private $_user = false;
 
 
@@ -65,6 +63,10 @@ class LoginForm extends Model
         return false;
     }
 
+    public function generateToken()
+    {
+        
+    }
     /**
      * Finds user by [[username]]
      *

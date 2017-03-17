@@ -18,6 +18,7 @@ $config = [
             'cookieValidationKey' => 'demodemodemo',
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
+                'text/json' => 'yii\web\JsonParser',
             ]
         ],
         'cache' => [
